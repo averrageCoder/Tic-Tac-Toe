@@ -156,13 +156,53 @@ public class TicTacToeGame {
 			}
 		}
 		
-		if(board[1] == board[5] && board[1]==computerSymbol) return 9;
-		if(board[9] == board[5] && board[9]==computerSymbol) return 1;
-		if(board[1] == board[9] && board[1]==computerSymbol) return 5;
-		if(board[3] == board[5] && board[3]==computerSymbol) return 7;
-		if(board[7] == board[5] && board[7]==computerSymbol) return 3;
-		if(board[3] == board[7] && board[3]==computerSymbol) return 5;
+		//check diagonal
+		if(board[1] == board[5] && board[1]==computerSymbol && board[9]==' ') return 9;
+		if(board[9] == board[5] && board[9]==computerSymbol && board[1]==' ') return 1;
+		if(board[1] == board[9] && board[1]==computerSymbol && board[5]==' ') return 5;
+		if(board[3] == board[5] && board[3]==computerSymbol && board[7]==' ') return 7;
+		if(board[7] == board[5] && board[7]==computerSymbol && board[3]==' ') return 3;
+		if(board[3] == board[7] && board[3]==computerSymbol && board[5]==' ') return 5;
 		
+		//check row for opponent
+		for(int index=1; index<10; index++) {
+			if(index%3==0) {
+				if(board[index] == board[index-2] && board[index]==userInput && board[index]==' ')
+					return index-1;
+			}
+			else {
+				if(board[index] == board[index+1] && board[index]==userInput && board[index]==' ') {
+					if(index%3==1)
+						return index+2;
+					else
+						return index-1;
+				}
+			}
+		}
+		
+		//check column for opponent
+		for(int index=1; index<10; index++) {
+			if(index/3>=2) {
+				if(board[index] == board[index-6] && board[index]==userInput && board[index]==' ')
+					return index-3;
+			}
+			else {
+				if(board[index] == board[index+3] && board[index]==userInput && board[index]==' ') {
+					if(index/3<=1)
+						return index+6;
+					else
+						return index-3;
+				}
+			}
+		}
+		
+		//check diagonal for opponent
+		if(board[1] == board[5] && board[1]==userInput && board[9]==' ') return 9;
+		if(board[9] == board[5] && board[9]==userInput && board[1]==' ') return 1;
+		if(board[1] == board[9] && board[1]==userInput && board[5]==' ') return 5;
+		if(board[3] == board[5] && board[3]==userInput && board[7]==' ') return 7;
+		if(board[7] == board[5] && board[7]==userInput && board[3]==' ') return 3;
+		if(board[3] == board[7] && board[3]==userInput && board[5]==' ') return 5;
 		
 		System.out.println("CHOOSING RANDOM FOR COMP!");
 		return (int) (Math.floor(Math.random()*10)%9) + 1;
