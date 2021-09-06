@@ -32,13 +32,20 @@ public class TicTacToeGame {
 	
 	private static void showBoard() {
 		
-		System.out.println("\n CURRENT BOARD POSITION:");
+		System.out.println("\nCURRENT BOARD POSITION:");
 		for(int rowIndex=0; rowIndex<3; rowIndex++) {
-			for(int colIndex=0; colIndex<3; colIndex++) {
-				System.out.print(board[rowIndex+colIndex+1]+" | ");
+			for(int columnIndex=0; columnIndex<3; columnIndex++) {
+				System.out.print(board[rowIndex+columnIndex+1]+" | ");
 			}
 			System.out.print("\n");
 		}
+		
+	}
+	
+	private static int readMoveLocation() {
+		
+		System.out.println("Enter desired location[1-9]:");
+		return scan.nextInt();
 		
 	}
 	
@@ -47,6 +54,7 @@ public class TicTacToeGame {
 		createBoard();
 		readInputChoice();
 		showBoard();
+		int moveLocation = readMoveLocation();
 		scan.close();
 		
 	}
