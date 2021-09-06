@@ -96,7 +96,8 @@ public class TicTacToeGame {
 			}
 			else {
 				while(true) {
-					moveLocation = (int) (Math.floor(Math.random()*10)%9) + 1;
+					//moveLocation = (int) (Math.floor(Math.random()*10)%9) + 1;
+					moveLocation = getComputerMove();
 					System.out.println(moveLocation);
 					if(checkIfAvailable(moveLocation)) {
 						board[moveLocation] = computerSymbol;
@@ -122,19 +123,64 @@ public class TicTacToeGame {
 		
 	}
 
+	private static int getComputerMove() {
+		//check row
+		for(int index=1; index<10; index++) {
+			if(index%3==0) {
+				if(board[index] == board[index-2] && board[index]==computerSymbol && board[index]==' ')
+					return index-1;
+			}
+			else {
+				if(board[index] == board[index+1] && board[index]==computerSymbol && board[index]==' ') {
+					if(index%3==1)
+						return index+2;
+					else
+						return index-1;
+				}
+			}
+		}
+		
+		//check column
+		for(int index=1; index<10; index++) {
+			if(index/3>=2) {
+				if(board[index] == board[index-6] && board[index]==computerSymbol && board[index]==' ')
+					return index-3;
+			}
+			else {
+				if(board[index] == board[index+3] && board[index]==computerSymbol && board[index]==' ') {
+					if(index/3<=1)
+						return index+6;
+					else
+						return index-3;
+				}
+			}
+		}
+		
+		if(board[1] == board[5] && board[1]==computerSymbol) return 9;
+		if(board[9] == board[5] && board[9]==computerSymbol) return 1;
+		if(board[1] == board[9] && board[1]==computerSymbol) return 5;
+		if(board[3] == board[5] && board[3]==computerSymbol) return 7;
+		if(board[7] == board[5] && board[7]==computerSymbol) return 3;
+		if(board[3] == board[7] && board[3]==computerSymbol) return 5;
+		
+		
+		System.out.println("CHOOSING RANDOM FOR COMP!");
+		return (int) (Math.floor(Math.random()*10)%9) + 1;
+	}
+
 	private static boolean checkIfWon(int moveLocation) {
 		
 		//check row
 		int displacement=moveLocation-moveLocation%3;
 		if(moveLocation%3==0) displacement=displacement-3;
 			
-		System.out.println("ROW DISP: "+displacement);
 		if(board[displacement+1] == board[displacement+2] && board[displacement+2] == board[displacement+3]) {
 			if(board[displacement+1]!= ' ') return true; //win
 		}
 		
 		//check column
 		displacement=moveLocation%3;
+		if(moveLocation%3==0) displacement=displacement+3;
 		if(board[displacement] == board[displacement+3] && board[displacement+3] == board[displacement+6]) {
 			if(board[displacement] != ' ') return true; //win
 		}
