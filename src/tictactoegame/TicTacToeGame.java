@@ -18,7 +18,7 @@ public class TicTacToeGame {
 
 	private static void readInputChoice() {
 
-		System.out.println("Enter input choice: \n1. X \n2. O \nENTER YOUR CHOICE: ");
+		System.out.println("\nEnter input choice: \n1. X \n2. O \nENTER YOUR CHOICE: ");
 		int choice = scan.nextInt();
 
 		if(choice==1) {
@@ -73,68 +73,73 @@ public class TicTacToeGame {
 	}
 
 	public static void main(String args[]) {
-		int iteration=0, moveLocation;
-		createBoard();
-		readInputChoice();
-		showBoard();
-		checkWhoPlaysFirst();
-		while(true) {
-			if((!userPlaysFirst && iteration%2==1) || (userPlaysFirst && iteration%2==0)) {
-				while(true) {
-					moveLocation = readMoveLocation();
-					if(checkIfAvailable(moveLocation)) {
-						board[moveLocation] = userInput;
-						break;
-					}
-					else
-						System.out.println("Location not free!");
-				}
-				if(checkIfWon(moveLocation)) {
-					System.out.println("\nGAME OVER!!! USER HAS WON!!!");
-					break;
-				}
-			}
-			else {
-				while(true) {
-					//moveLocation = (int) (Math.floor(Math.random()*10)%9) + 1;
-					moveLocation = getComputerMove();
-					System.out.println(moveLocation);
-					if(checkIfAvailable(moveLocation)) {
-						board[moveLocation] = computerSymbol;
-						break;
-					}
-					else
-						System.out.println("Location not free!");
-				}
-				if(checkIfWon(moveLocation)) {
-					System.out.println("\nGAME OVER!!! COMPUTER HAS WON!!!");
-					break;
-				}
-			}
-			iteration++;
+		int iteration, moveLocation,playAgain;
+		do {
+			iteration=0;
+			createBoard();
+			readInputChoice();
 			showBoard();
-			if(iteration == 9) {
-				System.out.println("\nGAME OVER!!! GAME TIED!");
-				break;
+			checkWhoPlaysFirst();
+			while(true) {
+				if((!userPlaysFirst && iteration%2==1) || (userPlaysFirst && iteration%2==0)) {
+					while(true) {
+						moveLocation = readMoveLocation();
+						if(checkIfAvailable(moveLocation)) {
+							board[moveLocation] = userInput;
+							break;
+						}
+						else
+							System.out.println("Location not free!");
+					}
+					if(checkIfWon(moveLocation)) {
+						System.out.println("\nGAME OVER!!! USER HAS WON!!!");
+						break;
+					}
+				}
+				else {
+					while(true) {
+						//moveLocation = (int) (Math.floor(Math.random()*10)%9) + 1;
+						moveLocation = getComputerMove();
+						System.out.println(moveLocation);
+						if(checkIfAvailable(moveLocation)) {
+							board[moveLocation] = computerSymbol;
+							break;
+						}
+						else
+							System.out.println("Location not free!");
+					}
+					if(checkIfWon(moveLocation)) {
+						System.out.println("\nGAME OVER!!! COMPUTER HAS WON!!!");
+						break;
+					}
+				}
+				iteration++;
+				showBoard();
+				if(iteration == 9) {
+					System.out.print("\nGAME OVER!!! GAME TIED!");
+					break;
+				}
 			}
-		}
-		showBoard();
+			showBoard();	
+			
+			System.out.println("\nDO YOU WANT TO PLAY AGAIN?\n 1.YES\n 0.NO \nENTER YOUR CHOICE: ");
+			playAgain = scan.nextInt();
+		}while(playAgain==1);
 		scan.close();
-
 	}
 
 	private static int getComputerMove() {
 		//check row
 		for(int index=1; index<10; index++) {
 			if(index%3==0) {
-				if(board[index] == board[index-2] && board[index]==computerSymbol && board[index]==' ')
+				if(board[index] == board[index-2] && board[index]==computerSymbol && board[index-1]==' ')
 					return index-1;
 			}
 			else {
-				if(board[index] == board[index+1] && board[index]==computerSymbol && board[index]==' ') {
-					if(index%3==1)
+				if(board[index] == board[index+1] && board[index]==computerSymbol) {
+					if(index%3==1 && board[index+2]==' ')
 						return index+2;
-					else
+					else if(index%3==2 && board[index-1]==' ')
 						return index-1;
 				}
 			}
@@ -143,14 +148,14 @@ public class TicTacToeGame {
 		//check column
 		for(int index=1; index<10; index++) {
 			if(index/3>=2) {
-				if(board[index] == board[index-6] && board[index]==computerSymbol && board[index]==' ')
+				if(board[index] == board[index-6] && board[index]==computerSymbol && board[index-3]==' ')
 					return index-3;
 			}
 			else {
-				if(board[index] == board[index+3] && board[index]==computerSymbol && board[index]==' ') {
-					if(index/3<=1)
+				if(board[index] == board[index+3] && board[index]==computerSymbol) {
+					if(index/3<=1 && board[index+6]==' ')
 						return index+6;
-					else
+					else if(board[index-3]==' ')
 						return index-3;
 				}
 			}
@@ -197,14 +202,14 @@ public class TicTacToeGame {
 		//check row for opponent
 		for(int index=1; index<10; index++) {
 			if(index%3==0) {
-				if(board[index] == board[index-2] && board[index]==userInput && board[index]==' ')
+				if(board[index] == board[index-2] && board[index]==userInput && board[index-1]==' ')
 					return index-1;
 			}
 			else {
-				if(board[index] == board[index+1] && board[index]==userInput && board[index]==' ') {
-					if(index%3==1)
+				if(board[index] == board[index+1] && board[index]==userInput) {
+					if(index%3==1 && board[index+2]==' ')
 						return index+2;
-					else
+					else if(index%3==2 && board[index-1]==' ')
 						return index-1;
 				}
 			}
@@ -213,14 +218,14 @@ public class TicTacToeGame {
 		//check column for opponent
 		for(int index=1; index<10; index++) {
 			if(index/3>=2) {
-				if(board[index] == board[index-6] && board[index]==userInput && board[index]==' ')
+				if(board[index] == board[index-6] && board[index]==userInput && board[index-3]==' ')
 					return index-3;
 			}
 			else {
-				if(board[index] == board[index+3] && board[index]==userInput && board[index]==' ') {
-					if(index/3<=1)
+				if(board[index] == board[index+3] && board[index]==userInput) {
+					if(index/3<=1 && board[index+6]==' ')
 						return index+6;
-					else
+					else if(index/3>1 && board[index-3]==' ')
 						return index-3;
 				}
 			}
