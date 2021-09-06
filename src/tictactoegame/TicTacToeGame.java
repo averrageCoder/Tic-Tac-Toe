@@ -169,11 +169,19 @@ public class TicTacToeGame {
 		
 		int moveToCorner = findMoveToCorner();
 		if(moveToCorner!=0) return moveToCorner;
+		
+		int subsequentCoice = findSubsequentChoice();
+		if(subsequentCoice!=0) return subsequentCoice;
 		else {
 			System.out.println("CHOOSING RANDOM FOR COMP!");
 			return (int) (Math.floor(Math.random()*10)%9) + 1;
 		}
 		
+	}
+
+	private static int findSubsequentChoice() {
+		if(board[5]==' ') return 5;
+		return 0;
 	}
 
 	private static int findMoveToCorner() {
