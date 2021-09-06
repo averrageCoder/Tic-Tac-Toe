@@ -73,7 +73,7 @@ public class TicTacToeGame {
 	}
 	
 	public static void main(String args[]) {
-		int iteration=0;
+		int iteration=0, moveLocation;
 		createBoard();
 		readInputChoice();
 		showBoard();
@@ -81,7 +81,7 @@ public class TicTacToeGame {
 		while(true) {
 			if((!userPlaysFirst && iteration%2==1) || (userPlaysFirst && iteration%2==0)) {
 				while(true) {
-					int moveLocation = readMoveLocation();
+					moveLocation = readMoveLocation();
 					if(checkIfAvailable(moveLocation)) {
 						board[moveLocation] = userInput;
 						break;
@@ -89,10 +89,14 @@ public class TicTacToeGame {
 					else
 						System.out.println("Location not free!");
 				}
+				if(checkIfWon(moveLocation)) {
+					System.out.println("USER HAS WON!!!");
+					break;
+				}
 			}
 			else {
 				while(true) {
-					int moveLocation = (int) Math.floor(Math.random()*10);
+					moveLocation = (int) (Math.floor(Math.random()*10)%9) + 1;
 					System.out.println(moveLocation);
 					if(checkIfAvailable(moveLocation)) {
 						board[moveLocation] = computerSymbol;
@@ -101,14 +105,46 @@ public class TicTacToeGame {
 					else
 						System.out.println("Location not free!");
 				}
+				if(checkIfWon(moveLocation)) {
+					System.out.println("COMPUTER HAS WON!!!");
+					break;
+				}
 			}
 			iteration++;
 			showBoard();
-			if(iteration == 9)
+			if(iteration == 9) {
+				System.out.println("GAME TIED!");
 				break;
+			}
 		}
+		showBoard();
 		scan.close();
 		
+	}
+
+	private static boolean checkIfWon(int moveLocation) {
+		
+		//check row
+		int displacement=moveLocation-moveLocation%3;
+		if(moveLocation%3==0) displacement=displacement-3;
+			
+		System.out.println("ROW DISP: "+displacement);
+		if(board[displacement+1] == board[displacement+2] && board[displacement+2] == board[displacement+3]) {
+			if(board[displacement+1]!= ' ') return true; //win
+		}
+		
+		//check column
+		displacement=moveLocation%3;
+		if(board[displacement] == board[displacement+3] && board[displacement+3] == board[displacement+6]) {
+			if(board[displacement] != ' ') return true; //win
+		}
+		
+		//check diagonal
+		if((board[1] == board[5] && board[5] == board[9]) || (board[3] == board[5] && board[5] == board[7])) {
+			if(board[5] != ' ') return true; //win
+		}
+		
+		return false;
 	}
 	
 }
