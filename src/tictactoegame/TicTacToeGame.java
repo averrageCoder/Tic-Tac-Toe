@@ -90,7 +90,7 @@ public class TicTacToeGame {
 						System.out.println("Location not free!");
 				}
 				if(checkIfWon(moveLocation)) {
-					System.out.println("USER HAS WON!!!");
+					System.out.println("\nGAME OVER!!! USER HAS WON!!!");
 					break;
 				}
 			}
@@ -107,14 +107,14 @@ public class TicTacToeGame {
 						System.out.println("Location not free!");
 				}
 				if(checkIfWon(moveLocation)) {
-					System.out.println("COMPUTER HAS WON!!!");
+					System.out.println("\nGAME OVER!!! COMPUTER HAS WON!!!");
 					break;
 				}
 			}
 			iteration++;
 			showBoard();
 			if(iteration == 9) {
-				System.out.println("GAME TIED!");
+				System.out.println("\nGAME OVER!!! GAME TIED!");
 				break;
 			}
 		}
