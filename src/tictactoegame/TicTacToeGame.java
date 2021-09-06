@@ -30,10 +30,23 @@ public class TicTacToeGame {
 		
 	}
 	
+	private static void showBoard() {
+		
+		System.out.println("\n CURRENT BOARD POSITION:");
+		for(int rowIndex=0; rowIndex<3; rowIndex++) {
+			for(int colIndex=0; colIndex<3; colIndex++) {
+				System.out.print(board[rowIndex+colIndex+1]+" | ");
+			}
+			System.out.print("\n");
+		}
+		
+	}
+	
 	public static void main(String args[]) {
 		
 		createBoard();
 		readInputChoice();
+		showBoard();
 		scan.close();
 		
 	}
