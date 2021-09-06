@@ -2,13 +2,17 @@ package tictactoegame;
 
 public class TicTacToeGame {
 
-	private static char board[] = new char[11];
+	private static char board[] = new char[10];
 	
-	public static void main() {
-		
-		for(int i=1; i<11; i++) {
-			board[i] = ' ';
+	private static void createBoard() {
+		for(int index=1; index<10; index++) {
+			board[index] = ' ';
 		}
+	}
+	
+	public static void main(String args[]) {
+		
+		createBoard();
 		
 	}
 	
