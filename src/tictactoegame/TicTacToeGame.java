@@ -5,8 +5,10 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
 	private static char board[] = new char[10];
-	private static char userInput, computerInput;
+	private static char userInput, computerSymbol;
 	private static Scanner scan = new Scanner(System.in);
+	
+	private static boolean userPlaysFirst;
 	
 	private static void createBoard() {
 		for(int index=1; index<10; index++) {
@@ -21,11 +23,11 @@ public class TicTacToeGame {
 		
 		if(choice==1) {
 			userInput='X';
-			computerInput = 'O';
+			computerSymbol = 'O';
 		}
 		else {
 			userInput='O';
-			computerInput = 'X';
+			computerSymbol = 'X';
 		}
 		
 	}
@@ -57,17 +59,54 @@ public class TicTacToeGame {
 			return false;
 	}
 	
-	public static void main(String args[]) {
+	private static void checkWhoPlaysFirst() {
 		
+		if(Math.random() > 0.5) {
+			userPlaysFirst = true;
+			System.out.println("User plays first!");
+		}
+		else {
+			userPlaysFirst = false;
+			System.out.println("Computer plays first!");
+		}
+		
+	}
+	
+	public static void main(String args[]) {
+		int iteration=0;
 		createBoard();
 		readInputChoice();
 		showBoard();
-		int moveLocation = readMoveLocation();
-		if(checkIfAvailable(moveLocation))
-			board[moveLocation] = userInput;
-		else
-			System.out.println("Location not free!");
-		showBoard();
+		checkWhoPlaysFirst();
+		while(true) {
+			if((!userPlaysFirst && iteration%2==1) || (userPlaysFirst && iteration%2==0)) {
+				while(true) {
+					int moveLocation = readMoveLocation();
+					if(checkIfAvailable(moveLocation)) {
+						board[moveLocation] = userInput;
+						break;
+					}
+					else
+						System.out.println("Location not free!");
+				}
+			}
+			else {
+				while(true) {
+					int moveLocation = (int) Math.floor(Math.random()*10);
+					System.out.println(moveLocation);
+					if(checkIfAvailable(moveLocation)) {
+						board[moveLocation] = computerSymbol;
+						break;
+					}
+					else
+						System.out.println("Location not free!");
+				}
+			}
+			iteration++;
+			showBoard();
+			if(iteration == 9)
+				break;
+		}
 		scan.close();
 		
 	}
